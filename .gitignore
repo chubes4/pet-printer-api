@@ -1,0 +1,42 @@
+# Ignore node_modules folder
+node_modules/
+src/node_modules
+
+# Ignore .env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore coverage directory used by testing libraries
+coverage/
+
+# Ignore build files
+dist/
+build/
+
+# Ignore .next (if using Next.js)
+.next/
+
+# Ignore any debug output from Docker
+docker-debug.log
+
+# Ignore AWS sam
+.aws-sam
+
+# Ignore temporary files
+*.swp
+*.temp
+*.tmp

@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template for deploying Node.js/Express API to Lambda
+
+Parameters:
+  OpenAiApiKey:
+    Type: String
+    Description: "API Key for OpenAI API"
+
+  StableDiffusionApiKey:
+    Type: String
+    Description: "API Key for Stable Diffusion API"
+
+Resources:
+  PetArtApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs18.x
+      CodeUri: ./src # Path to your code
+      MemorySize: 1024
+      Timeout: 120
+      Environment:
+        Variables:
+          OPENAI_API_KEY: !Ref OpenAiApiKey
+          STABLE_DIFFUSION_API_KEY: !Ref StableDiffusionApiKey
+      Events:
+        DescribeImagePost:
+          Type: Api
+          Properties:
+            Path: /describe-image
+            Method: POST
+            RestApiId: !Ref PetArtApiGateway
+        GenerateStableDiffusionPost:
+          Type: Api
+          Properties:
+            Path: /generate-stable-diffusion
+            Method: POST
+            RestApiId: !Ref PetArtApiGateway
+
+  PetArtApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      EndpointConfiguration: REGIONAL
+      BinaryMediaTypes:
+        - multipart/form-data
+        - image/png
+        - image/jpeg
+        - image/*
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL for the Pet Art API"
+    Value: !Sub "https://${PetArtApiGateway}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
