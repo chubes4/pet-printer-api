@@ -48,7 +48,7 @@ app.post("/describe-image", upload.single("image"), async (req, res) => {
 						content: [
 							{
 								type: "text",
-								text: "A concise, direct, extremely specific description of the subject including fur color, breed, and very specific identifying features. Start with A.",
+								text: "A concise, direct, extremely specific description of the subject including fur color, breed, eye color, and very specific identifying features. Start with A.",
 							},
 							{
 								type: "image_url",
